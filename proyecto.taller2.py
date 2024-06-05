@@ -252,6 +252,110 @@ def crear_personas_aux(personas, res): #Fn auxiliar
         nombre = personas_uno[c] + personas_dos[d] + personas_tres[e]
         return crear_personas_aux(personas - 1, res + [nombre])
 
+# (4) Asignación y distribución de personas en las areas verdes
+
+def asignar(personas, num):
+    """
+    Función que le asigna a cada persona un numero que está entre 0 y len(areas)-1
+    """
+    return asignar_aux(personas, num, 0, len(personas))
+
+def asignar_aux(personas, num, ind, fin): #Fn auxiliar
+    
+    if ind == fin:
+        return personas
+        
+    else:
+        personas[ind] = [personas[ind], random.randint(0, num - 1)]
+        return asignar_aux(personas, num, ind + 1, fin)
+
+def listas_vacias(num):
+    """
+    Función que crea una lista cuyos elementos son listas vacías y
+    len(lista) = num
+    E: Num, el largo de la lista
+    S: Lista cuyos elementos son listas vacías
+    R: Entrada debe ser un num entero (int)
+    """
+    if type(num) != int:
+        return "Error"
+        
+    else:
+        return listas_vacias_aux(num, 0, [])
+
+def listas_vacias_aux(num, ind, res): #Fn auxiliar
+    if ind == num:
+        return res
+        
+    else:
+        return listas_vacias_aux(num, ind + 1, res + [[]])
+
+def distribuir():
+    """
+    Función que distribuye a las personas en las areas verdes disponible.
+    """
+    areas_verdes = crear_areas_verdes()
+    print()
+    print("Áreas verdes creadas:", areas_verdes)
+    print()
+    print(r"""      ccee88oo
+  C8O8O8Q8PoOb o8oo
+ dOB69QO8PdUOpugoO9bD
+CgggbU8OU qOp qOdoUOdcb
+    6OuU  /p u gcoUodpP
+      \\\//  /douUP
+        \\\////
+         |||/\
+         |||\/
+         |||||
+   .....//||||\....
+""")
+    personas = crear_personas()
+    print()
+    print("Personas creadas:", personas)
+    print()
+    print(r""" O     O     O
+/|\   /|\   /|\
+/ \   / \   / \
+""")
+    input("Presione cualquier botón para asignar las personas en las áreas verdes creadas. [] \n")
+
+    personas = asignar(personas, len(areas_verdes))
+    agrupado = agrupar_aux(personas, areas_verdes, 0, 0, len(personas), len(areas_verdes), listas_vacias(len(areas_verdes)))
+    distribuidas = distribuir_aux(agrupado, areas_verdes, 0, len(agrupado))
+
+    print("Distribución de personas en áreas verdes:", distribuidas)
+    return seleccionar_area(distribuidas)
+
+def agrupar_aux(personas, areas_verdes, i, j, fin_1, fin_2, res):
+    """
+    Funcion que solo llama distribuir, agrupa a las personas segun el
+    numero que tienen despues de asignar( )
+    """
+    if j == fin_2:
+        return res
+        
+    if i == fin_1:
+        return agrupar_aux(personas, areas_verdes, 0, j + 1, fin_1, fin_2, res)
+        
+    elif personas[i][1] == j:
+        res[j] = res[j] + [personas[i][0]]
+        return agrupar_aux(personas, areas_verdes, i + 1, j, fin_1, fin_2, res)
+        
+    else:
+        return agrupar_aux(personas, areas_verdes, i + 1, j, fin_1, fin_2, res)
+
+def distribuir_aux(personas, areas_verdes, ind, fin):
+    """
+    Segunda función auxiliar de distribuir, despues de que agrupar_aux
+    agrupe a las personas, esta función las asigna a un area verde disponible
+    """
+    if ind == fin:
+        return personas
+    else:
+        personas[ind] = [areas_verdes[ind]] + [personas[ind]]
+        return distribuir_aux(personas, areas_verdes, ind + 1, fin)
+
 # (6) Menú principal y nombre del jugador
 
 def menu_principal(name):  #Menu principal, de aquí, se conectan las demás funciones del juego.
