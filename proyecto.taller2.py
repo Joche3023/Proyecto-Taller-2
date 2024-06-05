@@ -356,6 +356,139 @@ def distribuir_aux(personas, areas_verdes, ind, fin):
         personas[ind] = [areas_verdes[ind]] + [personas[ind]]
         return distribuir_aux(personas, areas_verdes, ind + 1, fin)
 
+# (5) Interacción jugador-persona
+
+respuestas = ["Siempre es bueno estar al aire libre.", "Ando paseando en mi día libre.", "Este lugar es hermoso, me encanta.",
+                            "Me gusta despejar mi mente aquí despúes de un largo día.", "*Respira*, que bien se siente el aire fresco.", "Hace lindo día, ¿no?",
+                            "Siempre solía venir aquí con mi pareja, pero me dejó.", "Ando paseando a mi perro, se llama Firulais",  
+                            "La naturaleza es una esfera infinita cuyo centro está en todas partes y la circunferencia en ninguna.","Que corta que es la vida..."]
+
+def dialogo(nombre, pregunta, respuestas):
+    """
+    Función que da una respuesta aleatora de la persona a la que se le preguntó.
+    """
+    respuesta = random.choice(respuestas)
+    print()
+    print(nombre, "dice:", respuesta)
+
+def seleccionar_pregunta():
+    """
+    Función que permite hacer una pregunta. No tiene ningún
+    efecto en la respuesta de la persona, es solo para personalizar.
+    """
+    print()
+    pregunta = input ("Haz una pregunta: ")
+    return pregunta
+
+def seleccionar_persona(personas, indice, distribuidas):
+    """
+    Función que muestra las posibles personas a hablar y que permite seleccionar una.
+    E: input
+    S: persona que el jugador elige
+    R: la entrada del input debe ser un entero en el rando establecido
+    """
+    if personas == []:
+        print ("No hay personas en este área...")
+        print ()
+        tecla = input("Presione cualquier tecla para seleccionar otra area verde [ ]: " )
+        print ()
+        return seleccionar_area(distribuidas)
+            
+    elif indice == len(personas):
+        print()
+        seleccion = input("Selecciona una opción [ ]:")
+        if validar_entero(seleccion) == False:
+            return error_tipo_3(personas)
+            
+        else:
+            seleccion = int(seleccion)
+            return seleccionar_persona_aux(personas, seleccion)
+            
+    else:
+        print("[" + str(indice+1) + "] " + personas[indice])
+        return seleccionar_persona(personas, indice + 1, distribuidas)
+
+
+def seleccionar_persona_aux(personas, ind): #Fn auxiliar
+    
+    if ind >= 1 and ind <= len(personas):
+        return personas[ind - 1]
+        
+    else:
+        return error_numero(personas)
+
+
+def interactuar_con_personas_area(personas, distribuidas):
+    """
+    Funcion que permite que el jugador interactue con las personas
+    llama a otras funciones para esto
+    """
+    persona = seleccionar_persona(personas,0,distribuidas)
+    pregunta = seleccionar_pregunta()
+    dialogo(persona, pregunta, respuestas)
+    print()
+    continuar = input("¿Deseas hablar con otra persona en esta área? [ ] Si [n] No: ")
+    
+    if continuar == "s":
+        return interactuar_con_personas_area(personas, distribuidas)
+        
+    elif continuar == "n":
+        return seleccionar_area(distribuidas)
+        
+    else:
+        print("")
+        return interactuar_con_personas_area(personas, distribuidas)
+
+def seleccionar_area(distribuidas):
+    """
+    Función que muestra y permite interactuar con algun area verde.
+    """
+    print()
+    print(r"""      ccee88oo
+  C8O8O8Q8PoOb o8oo
+ dOB69QO8PdUOpugoO9bD
+CgggbU8OU qOp qOdoUOdcb
+    6OuU  /p u gcoUodpP
+      \\\//  /douUP
+        \\\////
+         |||/\
+         |||\/
+         |||||
+   .....//||||\....
+      O     O     O
+     /|\   /|\   /|\
+     / \   / \   / \
+""")
+    print()
+    print("Presiona cualquier otra tecla para salir [-]")
+    print("Selecciona un área verde para interactuar:")
+    print()
+    area = seleccionar_area_aux(distribuidas, 0)
+    print()
+    print("Personas en", area[0],":")
+    print()
+    interactuar_con_personas_area(area[1], distribuidas)
+
+def seleccionar_area_aux(distribuidas, indice): #Fn auxiliar
+    if indice == len(distribuidas):
+        print()
+        seleccion = input("Selecciona una opción [ ]: ")
+        
+        if validar_entero(seleccion) == False:
+            return error_tipo_4(distribuidas)
+            
+        else:
+            seleccion = int(seleccion)
+            
+            if 1 <= seleccion and seleccion <= len(distribuidas):
+                return distribuidas[seleccion - 1]
+            else:
+                return error_tipo_4(distribuidas)
+                
+    else:
+        print("[" + str(indice+1) + "] " + distribuidas[indice][0])
+        return seleccionar_area_aux(distribuidas, indice + 1)
+
 # (6) Menú principal y nombre del jugador
 
 def menu_principal(name):  #Menu principal, de aquí, se conectan las demás funciones del juego.
