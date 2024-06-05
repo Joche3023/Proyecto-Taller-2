@@ -155,6 +155,28 @@ def error_3tecla(): #Mensaje de error para cuando hay tres teclas válidas
     else:
         return error_3tecla()
 
+# (1) Funciones secundarias del menú
+
+def salir(): #Función simple que cierra el programa
+    print("Gracias por jugar.")
+    exit()
+
+def reglas_juego(): #Función simple que printea las reglas del juego
+    print()
+    print("Tu objetivo se centra en la creación de áreas verdes y en el diálogo con personas asignadas.")
+    print("Las áreas verdes son auto generadas al igual que las personas.\n")
+    print("Reglas del juego: \n")
+    print("1. Elige cuántas áreas verdes quieres crear.")
+    print("2. Elige cuántas personas quieres asignar a las respectivas áreas.")
+    print("3. Escoge una pregunta antes de hablar con alguien.\n")
+    print("Controles del juego: \n")
+    print("[x] Significa que x es una posible tecla a presionar en esa opción.")
+    print("[ ] Significa que se puede presionar cualquier tecla para esa opción.")
+    print()
+    tecla = input("Ingresa cualquier tecla para volver al menú principal [ ] ")
+    return menu_principal(name="")
+
+
 # (6) Menú principal y nombre del jugador
 
 def menu_principal(name):  #Menu principal, de aquí, se conectan las demás funciones del juego.
