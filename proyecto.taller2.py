@@ -213,6 +213,45 @@ def crear_areas_verdes_aux(areas, res): #Fn auxiliar
         nombre = areas_verdes_uno[a] + areas_verdes_dos[b]
         return crear_areas_verdes_aux(areas - 1, res + [nombre])
 
+# (3) Listas y funciones para las personas
+
+personas_uno = ["Juan ", "Luis ", "María ", "Aurelio ", "Valeria ", "Julián ", "Jimena "]
+
+largo_personas_uno = len(personas_uno)
+
+personas_dos = ["Álvarez ", "Matamoros ", "Sanabria ", "Castro ", "Naranjo ", "Guevara "]
+
+personas_tres = ["Álvarez", "Matamoros", "Sanabria", "Castro", "Naranjo", "Guevara"]
+
+largo_personas_dos = len(personas_dos)
+
+def crear_personas():
+    """
+    Función que le pide al usuario la cantidad de personas que
+    desea generar. La función crea a las personas tomando el primer
+    nombre de la lista [personas_uno] y el primer apellido de la lista
+    [personas_dos] y el tercero de la lista [personas_tres]. 
+    Los 3 son de forma aleatoria.
+    """
+    personas = input("¿Cuántas personas quiere en su simulación? []\n")
+    if validar_entero(personas) == False:
+        return error_tipo_2()
+        
+    else:
+        personas = int(personas)
+        return crear_personas_aux(personas, [])
+
+def crear_personas_aux(personas, res): #Fn auxiliar
+    if personas == 0:
+        return res
+        
+    else:
+        c = random.randint(0, largo_personas_uno - 1)
+        d = random.randint(0, largo_personas_dos - 1)
+        e = random.randint(0, largo_personas_dos - 1)
+        nombre = personas_uno[c] + personas_dos[d] + personas_tres[e]
+        return crear_personas_aux(personas - 1, res + [nombre])
+
 # (6) Menú principal y nombre del jugador
 
 def menu_principal(name):  #Menu principal, de aquí, se conectan las demás funciones del juego.
