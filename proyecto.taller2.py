@@ -154,3 +154,42 @@ def error_3tecla(): #Mensaje de error para cuando hay tres teclas válidas
         
     else:
         return error_3tecla()
+
+# (6) Menú principal y nombre del jugador
+
+def menu_principal(name):  #Menu principal, de aquí, se conectan las demás funciones del juego.
+    print()
+    print("Bienvenid@", name, "al Comité de Gestión de Áreas Verdes\n")     
+    print("[1] Iniciar proyecto de creación de áreas verdes\n")
+    print("[2] Reglas y controles del juego\n")
+    print("[3] Salir\n")
+    tecla = input("Selecciona una opción [ ]\n")
+    if tecla == "1":
+        return distribuir()
+        
+    elif tecla == "2":
+        return reglas_juego()
+        
+    elif tecla == "3":
+        return salir()
+        
+    else:
+        return error_3tecla()
+
+def solicitar_nombre(): #Función que guarda el nombre de la persona
+    print("Gracias por aplicar al comité de gestión de áreas verdes.")
+    name = input("Por favor, escribe tu nombre para registrarte: ")
+    print()
+    print("Presiona cualquier otra tecla [ ] para salir\n")
+    namechoice = input("¿Estás segur@ de tu nombre? [1] Sí [2] No \n")
+
+    if namechoice == "1":
+        return menu_principal(name)
+        
+    elif namechoice == "2":
+        return solicitar_nombre()
+        
+    else:
+        return salir()
+
+name = solicitar_nombre() #Esto inicia el juego
