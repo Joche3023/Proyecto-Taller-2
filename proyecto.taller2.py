@@ -176,6 +176,42 @@ def reglas_juego(): #Función simple que printea las reglas del juego
     tecla = input("Ingresa cualquier tecla para volver al menú principal [ ] ")
     return menu_principal(name="")
 
+# (2) Listas y funciones para las areas verdes
+
+areas_verdes_uno = ["Parque ", "Reserva ", "Centro ", "Vivero ", "Parque Nacional ", "Potrero "]
+
+largo_areas_uno = len(areas_verdes_uno)
+
+areas_verdes_dos = ["Tárcoles", "Manuel Antonio", "Braulio Carrillo", "el Bosque", "Sarapiquí", "Prusia", "de la Hoja", "del Este", "Corcovado"]
+
+largo_areas_dos = len(areas_verdes_dos)
+
+def crear_areas_verdes():
+    """
+    Función que le pide al usuario la cantidad de areas verdes con
+    las que desea trabajar y las genera tomando el tipo de area de
+    la lista [areas_verdes_uno] y el nombre de [areas_verdes_dos] aleatoriamente.
+    """
+    print()
+    areas = input("¿Cuántas áreas verdes desea crear? []\n")
+    
+    if validar_entero(areas) == False:
+        return error_tipo_1()
+        
+    else:
+        areas = int(areas)
+        return crear_areas_verdes_aux(areas, [])
+
+def crear_areas_verdes_aux(areas, res): #Fn auxiliar
+    
+    if areas == 0:
+        return res
+        
+    else:
+        a = random.randint(0, largo_areas_uno - 1)
+        b = random.randint(0, largo_areas_dos - 1)
+        nombre = areas_verdes_uno[a] + areas_verdes_dos[b]
+        return crear_areas_verdes_aux(areas - 1, res + [nombre])
 
 # (6) Menú principal y nombre del jugador
 
